@@ -7,17 +7,17 @@ from __future__ import print_function
 if sys.argv[1] == "configure" :
     # Enable firewall
     os.system ("iptables -L")
-    print "=-= FIREWALL ENABLED =-="
+    print ("=-= FIREWALL ENABLED =-=")
 
     # Install gufw
     os.system ("apt-get install gufw")
-    print "=-= GUFW INSTALLED =-="
+    print ("=-= GUFW INSTALLED =-=")
 
     os.system ("apt-get update; apt-get upgrade")
 
     # Once, there was a system without sshd. This just ensures that no problems occur
     os.system ("apt-get install openssh-server")
-    print "=-= OPENSSH INSTALLED =-="
+    print ("=-= OPENSSH INSTALLED =-=")
 
     """
     # Copy configuration file
@@ -31,11 +31,11 @@ if sys.argv[1] == "configure" :
 
     # Restart sshd
     os.system ("service ssh restart")
-    print "=-= SSH RESTARTED =-="
+    print ("=-= SSH RESTARTED =-=")
 
     # Install Cracklib
     os.system ("apt-get install libpam-cracklib")
-    print "=-= CRACKLIB INSTALLED =-="
+    print ("=-= CRACKLIB INSTALLED =-=")
 
     """
     # Disable IP spoofing
@@ -78,7 +78,7 @@ if sys.argv[1] == "configure" :
 
         os.system ("chage -m 7 -M 30 -I 10 -W 14 "+user)
 
-    print "=-= PASSWORDS CHANGED AND AGES SET =-="
+    print( "=-= PASSWORDS CHANGED AND AGES SET =-=")
 
     os.system ("apt-get install fail2ban")
     os.system ("gedit /etc/fail2ban/jail.conf")
