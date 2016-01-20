@@ -4,6 +4,8 @@ import os, sys
 from subprocess import Popen, PIPE
 from __future__ import print_function
 
+sudo_pw = raw_input ("What is the sudo password? ")
+
 if sys.argv[1] == "configure" :
     # Enable firewall
     os.system ("iptables -L")
@@ -50,7 +52,7 @@ if sys.argv[1] == "configure" :
             Code for changing password from here: http://stackoverflow.com/questions/13179126/how-to-change-a-linux-user-password-from-python
         """
         user = str(user)
-        sudo_password_callback = lambda: "CyberPatriot!"
+        sudo_password_callback = lambda: sudo_pw
         username, username_newpassword = user, "CyberPatriot!"
 
         try:
