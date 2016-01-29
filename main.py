@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os, sys
+from crypt import crypt
 from subprocess import Popen, PIPE
 from __future__ import print_function
 
