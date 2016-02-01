@@ -20,8 +20,11 @@ Running `sudo ./main.py find type [location]`, where type is either `media`, `sc
 
 ### nc
 
-Running `./main.py nc` will search for different netcat backdoors and give you the PID and command of these processes, since computer error may ruin certain things. 
+Running `./main.py nc` will search for different netcat backdoors and give you the PID and command of these processes, since computer error may ruin everything.
 
 MD5
 ---
-The MD5 Checksum is 4bd846f0aa886faa772cb18e31c7aea7
+
+This is a security script, right? It's supposed to be secure itself, so here is the MD5 hash
+
+ > 4bd846f0aa886faa772cb18e31c7aea7
