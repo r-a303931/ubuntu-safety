@@ -27,4 +27,4 @@ MD5
 
 This is a security script, right? It's supposed to be secure itself, so here is the MD5 hash
 
- > 4bd846f0aa886faa772cb18e31c7aea7
+ > 79b3999bd2ff222771a7856f50c17e69
