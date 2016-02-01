@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
-import os, sys
-from crypt import crypt
-from subprocess import Popen, PIPE
 from __future__ import print_function
-
-sudo_pw = raw_input ("What is the sudo password? ")
+import os, sys, getpass
+from subprocess import Popen, PIPE
 
 if sys.argv[1] == "configure" :
+    sudo_pw = getpass.getpass("Sudo password: ")
+
     # Enable firewall
     os.system ("iptables -L")
     print ("=-= FIREWALL ENABLED =-=")
@@ -22,7 +21,6 @@ if sys.argv[1] == "configure" :
     os.system ("apt-get install openssh-server")
     print ("=-= OPENSSH INSTALLED =-=")
 
-    """
     # Copy configuration file
     os.system ("cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak")
 
@@ -30,7 +28,6 @@ if sys.argv[1] == "configure" :
     with open ("/etc/ssh/sshd_config", "a") as f :
         f.write ("PermitRootLogin no")
         f.write ("PasswordAuthentication no")
-    """
 
     # Restart sshd
     os.system ("service ssh restart")
@@ -40,11 +37,12 @@ if sys.argv[1] == "configure" :
     os.system ("apt-get install libpam-cracklib")
     print ("=-= CRACKLIB INSTALLED =-=")
 
-    """
+
     # Disable IP spoofing
-    with open ("/etc/hosts.conf", "a") as f :
+    os.system ("cp /etc/host.conf /etc/host.conf.bak")
+
+    with open ("/etc/host.conf", "a") as f :
         f.write ("order bind,hosts\nnospoof on")
-    """
 
 
 
@@ -54,7 +52,7 @@ if sys.argv[1] == "configure" :
         """
         user = str(user)
         sudo_password_callback = lambda: sudo_pw
-        username, username_newpassword = user, "CyberPatriot!"
+        username, username_newpassword = user, "CyberPatriot1!"
 
         try:
             hashed = crypt(username_newpassword) # use the strongest available method
@@ -81,7 +79,7 @@ if sys.argv[1] == "configure" :
 
         os.system ("chage -m 7 -M 30 -I 10 -W 14 "+user)
 
-    print( "=-= PASSWORDS CHANGED AND AGES SET =-=")
+    print ("=-= PASSWORDS CHANGED AND AGES SET =-=")
 
     os.system ("apt-get install fail2ban")
     os.system ("gedit /etc/fail2ban/jail.conf")
@@ -107,8 +105,34 @@ elif sys.argv[1] == "find" :
             ".c",
             ".java"
         ]
+    elif tofind == "text" :
+        tosearch = [
+            ".txt",
+            ".rtf"
+        ]
+    else :
+        tosearch = [tofind]
+
+    if sys.argv[3] :
+        loc = sys.argv[3]
+    else :
+        loc = "/"
+
     for item in tosearch :
-        for root, dirs, files in os.walk ("/") :
+        for root, dirs, files in os.walk (loc) :
             for f in files :
                 if f.endswith (item) :
                     print (os.path.join (root, f))
+
+elif sys.argv[1] == "nc" :
+
+    # Code that uses ps and grep to search for NetCat backdoors
+    p1 = Popen(["ps", "-e"], stdout=PIPE)
+    p2 = Popen(["grep", "[^a-zA-Z]/*nc"], stdin=p1.stdout, stdout=PIPE, close_fds=True)
+    # Displays results
+    print ("Possible backdoors")
+    print (" PID Originating commands")
+    for line in p2.stdout.readlines() :
+        if not (line[25:44].strip() == 'python ./main.py nc') : # Skips over current process
+            # Displays PID and process command
+            print (line[1:5], line[25:].strip())
