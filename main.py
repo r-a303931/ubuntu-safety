@@ -133,6 +133,6 @@ elif sys.argv[1] == "nc" :
     print ("Possible backdoors")
     print (" PID Originating commands")
     for line in p2.stdout.readlines() :
-        if not (line[25:44].strip() == 'python ./main.py nc') : # Skips over current process
+        if not ((line[(25-45):].strip() == 'python ./main.py nc') or (line[(25-43):].strip() == 'python main.py nc')): # Skips over current process
             # Displays PID and process command
             print (line[1:5], line[25:].strip())
